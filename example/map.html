@@ -1,0 +1,113 @@
+<script src="../tinytest.js"></script>
+<script>
+/*
+Example 1: 
+map([1,2,3], function() {});
+
+
+Example 2:
+map([1,2,3], function (currentValue) {
+	console.log() currentValue;
+})
+
+Example 3:
+map([1,2,3], function (currentValue, index) {
+	console.log( index );	
+});
+
+Example 4:
+map([1,2,3], function(currentValue, index , originalArray ) {
+	console.log(originalArray)
+});
+
+Example 5:
+map([1,2,3], function (currentValue, index, originalArray ) {
+		console.log(this.optionalThisObject);
+}, { optionalThisObject: "I am a optional this object" });
+
+Example 6:
+var testArray = [1,2,3];
+var mappedArray = map(testArray, function (element){});
+testArray.length === mappedArray;
+
+Example 7:
+
+
+
+
+*/
+
+function map (array, callback, optionalThisObject) {
+	var mappedArray = [];
+	var boundCallback = callback;
+
+	// optional argument
+	if(optionalThisObject){
+		boundCallback = callback.bind(optionalThisObject)
+	}
+
+
+	for(i = 0 ; i < array.length ; i++ ){
+		boundCallback(array[i], i, array);
+		mappedArray.push(array[i]);
+	}
+
+	return mappedArray;
+}
+ 
+
+tests({
+	'It should run callback function for array.length times.': function () {
+		var callbackRunTime = 0;
+		map([1,2,3], function (){
+			callbackRunTime++;
+		});		
+		eq(callbackRunTime, 3);
+	},
+	'It should pass the ith element of array as the first argument in the callback function ': function () {
+		map([1], function (currentValue) {
+			eq(currentValue, 1);
+		});	
+	},
+	'It should pass the index of array as second argument in the callback function': function (){
+		map([1], function (currentValue, index) {
+			eq(index, 0);
+		})
+	},
+	'It should pass the originalArray as third argument in the callback function': function (){
+		var testArray = [1,2,3];
+		map(testArray, function (currentValue, index, originalArray) {
+			eq(originalArray, testArray);
+		});
+	},
+	'It should accept an optional this object as optional argument in higher order function as last argument': function (){
+		map([1,2,3], function (){
+			eq(this.optionalThisObject, 'I am a optional This object');
+		}, {optionalThisObject: 'I am a optional This object'});
+	}, 
+	'It shoud return an array': function (){
+		var mappedArray = map([], function (currentValue){
+			eq(Array.isArray(mappedArray), true );
+		});
+	},
+	'It should return a new array, not the original array.': function () {
+  		var testArray = [1,2,3];
+  		var mappedArray = map(testArray, function (){
+  			eq(Array.isArray(mappedArray), true );
+  			eq(mappedArray !== testArray, true);
+  		});
+	},
+	// 'It should return a new array that only has elements where callback()s return is true.': function () {
+	// 	fail();	
+	// }
+
+});
+
+
+
+
+</script>
+
+
+
+

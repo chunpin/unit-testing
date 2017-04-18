@@ -1,0 +1,84 @@
+<script src="../tinytest.js"></script>
+<script src="adder.js"></script>
+<script>
+/*
+tests({
+
+  'adds numbers': function() {
+    eq(6, add(2, 4));
+    eq(6.6, add(3.3, 3.3));
+  },
+
+  'subtracts numbers': function() {
+    eq(-2, add(2, -4));
+  },
+  'multy numbers': function (){
+  	eq(36, multiply(9, 4));
+  },
+  'divided numbers': function (){
+  	eq(11, division(50,5));
+  }
+*/
+
+
+function forEach(array, callback, configurableThisObject) {
+	var forEachCallback = callback;
+    // If configurableThisObject exists
+	if(configurableThisObject){
+		// Want to bind configurableThisObject ot the callback function
+		forEachCallback = callback.bind(configurableThisObject);
+	} 
+
+	for( i = 0 ;i < array.length ; i++){
+		forEachCallback(array[i],[i],array);
+	}
+
+}
+
+
+
+
+
+
+
+tests({
+	'It should run the callback function array.length times. ': function () {
+		var callbackRunTimes = 0;
+	 	forEach([1,2,3],function (){
+	 		callbackRunTimes++;
+	 	});
+	 	eq(callbackRunTimes, 3);
+	},
+	'It should pass in the ith element as the first argument to the callback function.': function () {
+		forEach([1],function (currentValue){
+			eq(currentValue, 1);
+		});
+	},
+	'It should pass in the ith position as the second argument to the callback function.' : function () {
+		forEach([1], function(currentValue, index) {
+				eq(index, 0);
+		});
+	},
+	'It should pass the originalArray as third argument to the callback function.' : function () {
+		var testArray = [1,2,3];
+		forEach(testArray, function (currentValue, index, originalArray) {
+			eq(originalArray,testArray);
+		});
+	},
+	'It should accept a configurable this object as last optional argument.' : function() {
+		// forEach(/* array */,  callback , /* configurableThisObject */ );
+		forEach([1], function () {
+			eq(this.description, 'I am a configurable This Object' );
+		}, { description: 'I am a configurable This Object'})
+	} 
+});
+
+
+
+
+
+
+
+</script>
+
+
