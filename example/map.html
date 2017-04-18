@@ -85,18 +85,21 @@ tests({
 			eq(this.optionalThisObject, 'I am a optional This object');
 		}, {optionalThisObject: 'I am a optional This object'});
 	}, 
-	'It shoud return an array': function (){
+	'It should return an array': function (){
 		var mappedArray = map([], function (currentValue){
 			eq(Array.isArray(mappedArray), true );
 		});
 	},
 	'It should return a new array, not the original array.': function () {
   		var testArray = [1,2,3];
-  		var mappedArray = map(testArray, function (){
-  			eq(Array.isArray(mappedArray), true );
-  			eq(mappedArray !== testArray, true);
+  		var mappedArray = map(testArray, function (currentValue){
+  		    	return currentValue;
   		});
+  		eq(Array.isArray(mappedArray), true );
+  		eq(mappedArray !== testArray, true );
 	},
+
+
 	// 'It should return a new array that only has elements where callback()s return is true.': function () {
 	// 	fail();	
 	// }
