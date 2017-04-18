@@ -48,8 +48,8 @@ function map (array, callback, optionalThisObject) {
 
 
 	for(i = 0 ; i < array.length ; i++ ){
-		boundCallback(array[i], i, array);
-		mappedArray.push(array[i]);
+		
+		mappedArray.push(boundCallback(array[i], i, array));
 	}
 
 	return mappedArray;
@@ -90,12 +90,12 @@ tests({
 			eq(Array.isArray(mappedArray), true );
 		});
 	},
-	'It should return a new array, not the original array.': function () {
-  		var testArray = [1,2,3];
+	'It should return a mapped array.': function () {
+  		var testArray = [1];
   		var mappedArray = map(testArray, function (currentValue){
-  		    	return currentValue;
+  		    	return currentValue * 4;
   		});
-  		eq(Array.isArray(mappedArray), true );
+  		eq(mappedArray, 4);
   		eq(mappedArray !== testArray, true );
 	},
 
