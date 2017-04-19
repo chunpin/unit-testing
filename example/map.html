@@ -106,6 +106,7 @@ tests({
 
 
 	'It should skip unassigned indexes': function () {
+		fail();
 		var weirdArray = [ , 1, 'I am a string' ,undefined]; // weirdArray[0] didn't assign any value inti. so it's a missing element.
 
 		var expectedArray = [1, 'I am a string' , undefined];
