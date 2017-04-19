@@ -37,7 +37,7 @@ Example 7:
 
 */
 
-function map (array, callback, optionalThisObject) {
+function map (originalArray, callback, optionalThisObject) {
 	var mappedArray = [];
 	var boundCallback = callback;
 
@@ -47,9 +47,12 @@ function map (array, callback, optionalThisObject) {
 	}
 
 
-	for(i = 0 ; i < array.length ; i++ ){
-		
-		mappedArray.push(boundCallback(array[i], i, array));
+	for(i = 0 ; i < originalArray.length ; i++ ){
+		if(i in originalArray){
+			// mappedArray[i] = boundCallback(originalArray[i], i, originalArray);
+			mappedArray.push(boundCallback(originalArray[i], i, originalArray));
+		}
+
 
 	}
 
@@ -108,9 +111,10 @@ tests({
 		var expectedArray = [1, 'I am a string' , undefined];
 
 		var mappedArray = map(weirdArray, function (currentValue){
-			
+			return currentValue	
 		})
-
+		console.log(mappedArray);
+		// propertyName in Object or in array
 		eq( mappedArray !== weirdArray, true );
 		eq( mappedArray, expectedArray);
 
