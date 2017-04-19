@@ -50,6 +50,7 @@ function map (array, callback, optionalThisObject) {
 	for(i = 0 ; i < array.length ; i++ ){
 		
 		mappedArray.push(boundCallback(array[i], i, array));
+
 	}
 
 	return mappedArray;
@@ -101,9 +102,19 @@ tests({
 
 
 
-	// 'It should return a new array that only has elements where callback()s return is true.': function () {
-	// 	fail();	
-	// }
+	'It should skip unassigned indexes': function () {
+		var weirdArray = [ , 1, 'I am a string' ,undefined]; // weirdArray[0] didn't assign any value inti. so it's a missing element.
+
+		var expectedArray = [1, 'I am a string' , undefined];
+
+		var mappedArray = map(weirdArray, function (currentValue){
+			
+		})
+
+		eq( mappedArray !== weirdArray, true );
+		eq( mappedArray, expectedArray);
+
+	}
 
 });
 
