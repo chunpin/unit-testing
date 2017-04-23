@@ -1,0 +1,58 @@
+<script src="../tinytest.js"></script>
+<script>
+
+function reduce(array, callback, startingValue) {
+	var resultSoFar = startingValue;
+	for( var i = 0 ; i < array.length ; i++) {
+		resultSoFar = callback(resultSoFar, array[i]);
+	}
+	return resultSoFar;
+}
+
+
+
+
+
+
+/* 
+
+--------- callback Syntax --------- 
+	// reduce(array, callback[, initialValue])
+
+	// callback parameters ()
+		// accumulator
+		// currenValue
+		// currentIndex
+		// array
+
+	// Returns  a single value.
+
+
+
+--------- callback Description ---------
+
+	•Executes the callback function once for each element present in the array
+	•Excludes holes in the array (e.g. [ * hole *, 1])
+
+		CASE 1: 
+			If initialValue is provided in the call to reduce, then accumulator will be equal to initialValue, and currentValue will be equal to the first value in the array.	
+
+			code example:
+			--I AM HERE--
+
+		CASE 2: 
+			NO initialValue is provided, then accumulator will be equal to the first value in the array, and currentValue will be equal to the second.	
+
+			code example:
+
+
+ /*
+
+
+
+
+</script>
+
+
+
+
