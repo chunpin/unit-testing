@@ -39,18 +39,28 @@ Example 7:
 
 function map (originalArray, callback, optionalThisObject) {
 	var mappedArray = [];
-	var boundCallback = callback;
+	var mapCallback = callback;
 
 	// optional argument
 	if(optionalThisObject){
-		boundCallback = callback.bind(optionalThisObject)
+		mapCallback = callback.bind(optionalThisObject)
 	}
 
 
 	for(i = 0 ; i < originalArray.length ; i++ ){
 		if(i in originalArray){
+<<<<<<< HEAD
 			mappedArray[i] = boundCallback(originalArray[i], i, originalArray);
 			// mappedArray.push(boundCallback(originalArray[i], i, originalArray));
+||||||| merged common ancestors
+			// mappedArray[i] = boundCallback(originalArray[i], i, originalArray);
+			mappedArray.push(boundCallback(originalArray[i], i, originalArray));
+=======
+			// mappedArray[i] = mapCallback(originalArray[i], i, originalArray);
+			// mappedArray.push(mapCallback(originalArray[i], i, originalArray));
+			mappedArray[i] = mapCallback(originalArray[i], i, originalArray);
+						
+>>>>>>> 40936096fffcb0bcaccb9f2cb17ea6fd9875f8b4
 		}
 
 
@@ -106,17 +116,40 @@ tests({
 
 
 	'It should skip unassigned indexes': function () {
+<<<<<<< HEAD
 		var weirdArray = [ , 1, 'I am a string' ,undefined]; // weirdArray[0] didn't assign any value inti. so it's a missing element.
 		
 		var mappedArray = map(weirdArray, function double (currentValue){
 			return currentValue * 2	
+||||||| merged common ancestors
+		var weirdArray = [ , 1, 'I am a string' ,undefined]; // weirdArray[0] didn't assign any value inti. so it's a missing element.
+
+		var expectedArray = [1, 'I am a string' , undefined];
+
+		var mappedArray = map(weirdArray, function (currentValue){
+			return currentValue	
+=======
+		var weirdArray = [ ,1, 3 , 5,  'I am a string' ,undefined]; // weirdArray[0] didn't assign any value inti. so it's a missing element.
+
+		var mappedArray = map(weirdArray, function timesFour (currentValue){
+			return currentValue	* 4
+>>>>>>> 40936096fffcb0bcaccb9f2cb17ea6fd9875f8b4
 		})
 		console.log(mappedArray);
 
 		// propertyName in Object or in array
+<<<<<<< HEAD
 		eq(0 in mappedArray, false);
 		eq(mappedArray[1], 2)
 
+||||||| merged common ancestors
+		eq( mappedArray !== weirdArray, true );
+		eq( mappedArray, expectedArray);
+
+=======
+		eq(0 in mappedArray, false);
+		eq(mappedArray[1], 4);
+>>>>>>> 40936096fffcb0bcaccb9f2cb17ea6fd9875f8b4
 	}
 
 });
@@ -125,6 +158,8 @@ tests({
 
 
 </script>
+
+
 
 
 
