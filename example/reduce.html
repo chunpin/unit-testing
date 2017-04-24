@@ -1,6 +1,7 @@
 <script src="../tinytest.js"></script>
 <script>
 
+/*
 function reduce(array, callback, startingValue) {
 	var resultSoFar = startingValue;
 	for( var i = 0 ; i < array.length ; i++) {
@@ -8,12 +9,12 @@ function reduce(array, callback, startingValue) {
 	}
 	return resultSoFar;
 }
+*/
 
 
 
 
-
-
+ 
 /* 
 
 --------- callback Syntax --------- 
@@ -28,6 +29,21 @@ function reduce(array, callback, startingValue) {
 	// Returns  a single value.
 
 
+=============  REQUIREMENTS =============
+• Callback shoudl not run on holes inthe array.
+
+• If initialValue, accumulator should be equal to initialValue.
+• If initialValue, currentValue should be equal to the first value in the array.
+• If initialValue, callback will start at index 0 of array.
+
+• If NO initialValue, accumulator should be equal to first value in the array.
+• If NO initialValue, currenValue should be equal to second value in the array.
+• If NO initialValue, callback will start at index 1 of array.
+
+
+
+
+
 
 --------- callback Description ---------
 
@@ -38,12 +54,45 @@ function reduce(array, callback, startingValue) {
 			If initialValue is provided in the call to reduce, then accumulator will be equal to initialValue, and currentValue will be equal to the first value in the array.	
 
 			code example:
-			--I AM HERE--
+				var array = ['first', 'second', 'third'];
+				array.reduce(function (accumulator, currentValue){
+					//accumulator = initialValue
+					//currentValue = array[0] 
+				},initialValue);
+
+
+
+
 
 		CASE 2: 
 			NO initialValue is provided, then accumulator will be equal to the first value in the array, and currentValue will be equal to the second.	
 
 			code example:
+				var array = ['first', 'second', 'third'];
+				array.reduce(function (accumulator, currentValue){
+					//accumulator = array[0];
+					//currentValue = array[1]; 
+				}); 
+
+
+
+		Edge Cases 1: 
+			If the array is empty and no initialValue is provided, TypeError will be thrown.
+
+			code example:
+				var array = [];
+				array.reduce(function (accumulator, currentValue){
+				});
+
+			    ==> throw TypeError 
+		Edge Cases 2:
+
+			If the array has only one element (regardless of position) and no initialValue is provided, or if initialValue is provided but the array is empty, the solo value will be returned without calling callback.
+
+				code example:
+				var array = [ * hole * , 2 , * hole *   ];
+				array.reduce(function (){}); // no initialValue
+				// return 2 without calling the callback function 
 
 
  /*
@@ -52,7 +101,5 @@ function reduce(array, callback, startingValue) {
 
 
 </script>
-
-
 
 
