@@ -15,7 +15,7 @@ function reduce(array, callback, startingValue) {
 
 
  
-/* 
+/*
 
 --------- callback Syntax --------- 
 	// reduce(array, callback[, initialValue])
@@ -40,49 +40,76 @@ function reduce(array, callback, startingValue) {
 • If NO initialValue, currenValue start with array[1].
 • If NO initialValue, callback will start at array[1].
 
+• If initialValue, and the array is empty, it should return initialValue without calling callback.
+• If No initialValue, and array has ONLY ONE element (regardless of position), it shoud return that ONLY ONE element without calling callback.
+
+
+
+
 • It should actually reduce.
 • It should exclude holes.
+• If array is empty, and No initialvalue, throw TypeError.
 • It should pass array as fourth argument to callback.
 
-• If array is empty , and NO initialValue, throw TypeError.
-	// reduce([],function (){}); ===> throw TypeErro
 
 
-• If array has only one element (regardless of position) , and NO initialValue, , it should be return SOLO VALUE of array without calling callback.
-	// reduce([ * hole * , 1 ], function (){});  ===> return 1 without calling callback
-	// redue([1], function (){});  ===> return 1 without calling callback
+*/
+
+tests({
+	'Callback shoudl not run on holes inthe array.': function () {
+		fail();
+	},
+
+	'If initialValue, accumulator should  start with initialValue.': function () {
+		fail();
+	},
+	'If initialValue, currentValue should start with array[0].': function () {
+		fail();
+	},
+	'If initialValue, callback will start at index array[0].': function () {
+		fail();
+	},
+
+	'If NO initialValue, accumulator start with array[0].': function () {
+		fail();
+	},
+	'If NO initialValue, currenValue start with array[1].': function () {
+		fail();
+	},
+	'If NO initialValue, callback will start at array[1].': function () {
+		fail();
+	},
+
+	'If initialValue, and the array is empty, it should return initialValue without calling callback.': function () {
+		fail();
+	},
+	'If No initialValue, and array has ONLY ONE element (regardless of position), it shoud return that ONLY ONE element without calling callback.': function () {
+		fail();
+	},
 
 
-• If array is empty, and there is an initialValue, , it should be return SOLO VALUE  without calling callback.
-	// reduce([], function() {}, initialValue ));  ===> return initialValue without calling callback
 
 
---------- callback Description ---------
-
-	
-
-
-
-		Edge Cases 1: 
-			If the array is empty and no initialValue is provided, TypeError will be thrown.
-
-			code example:
-				var array = [];
-				array.reduce(function (accumulator, currentValue){
-				});
-
-			    ==> throw TypeError 
-		Edge Cases 2:
-
-			If the array has only one element (regardless of position) and no initialValue is provided, or if initialValue is provided but the array is empty, the solo value will be returned without calling callback.
-
-				code example:
-				var array = [ * hole * , 2 , * hole *   ];
-				array.reduce(function (){}); // no initialValue
-				// return 2 without calling the callback function 
+	'It should actually reduce.': function () {
+		fail();
+	},
+	'It should exclude holes.': function () {
+		fail();
+	},
+	'If array is empty, and No initialvalue, throw TypeError.': function () {
+		fail();
+	},
+	'It should pass array as fourth argument to callback.': function () {
+		fail();
+	}
+})
 
 
- /*
+
+
+
+
+
 
 
 
@@ -121,7 +148,43 @@ function reduce(array, callback, startingValue) {
 					//currentValue = array[1]; 
 				}); 
 
+
+		Edge Cases 1: 
+			If the array is empty and no initialValue is provided, TypeError will be thrown.
+
+			code example:
+				var array = [];
+				array.reduce(function (accumulator, currentValue){
+				});
+
+			    ==> throw TypeError 
+		Edge Cases 2:
+
+			If the array has only one element (regardless of position) and no initialValue is provided, or if initialValue is provided but the array is empty, the solo value will be returned without calling callback.
+
+				code example:
+				var array = [ * hole * , 2 , * hole *   ];
+				array.reduce(function (){}); // no initialValue
+				// return 2 without calling the callback function 
+
+
+
+	• If array is empty , and NO initialValue, throw TypeError.
+		// reduce([],function (){}); ===> throw TypeErro
+
+
+
+
+	• If array is empty, and there is an initialValue, , it should be return SOLO VALUE  without calling callback.
+		// reduce([], function() {}, initialValue ));  ===> return initialValue without calling callback
+
+
+	• If array has only one element (regardless of position) , and NO initialValue, , it should be return SOLO VALUE of array without calling callback.
+		// reduce([ * hole * , 1 ], function (){});  ===> return 1 without calling callback
+		// redue([1], function (){});  ===> return 1 without calling callback
+
 */
+
 
 
 
