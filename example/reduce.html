@@ -59,18 +59,25 @@ function reduce(array, callback, initialValue) {
 	var resultSoFar = initialValue;
 
 
-	// detect if NO initialValue, by counting how many arguments are in the reduce function 
+	// No initialValue
 	if( arguments.length < 3 ) {
 		console.warn('there is NO initialValue, so callback has to run starting at second element of array');
 		resultSoFar = array[startingIndex];
 		startingIndex++;
-		
-		
+		// if there's ONE element in array regardless of position, return the value of that singal element of array
+		if(Object.keys(array).length === 1){
+			var elementIndex = Object.keys(array);
+			var elementSingleValue = array[elementIndex];
+			return elementSingleValue;
+		}
+	// Has initialValue
+	} else {
+		if(Object.keys(array).length === 0){
+			return resultSoFar;
+		}
 	}
 
 	for(var i = startingIndex ; i < array.length; i++){
-
-
 		var currentValue = array[i]
 		var currentIndex = i;
 		callback(resultSoFar,currentValue, currentIndex);
@@ -129,14 +136,18 @@ tests({
 	},
 
 	'If initialValue, and the array is empty, it should return initialValue without calling callback.': function () {
+		var initialValue = 5 ; 
 		var reduceResult = reduce([,,,], function () {
 			 console.warn('if is message shows, it mean the callback is called! so it is not currect.');
-		},1);
-		eq(reduceResult, 1)
+		},initialValue);
+		eq(reduceResult, initialValue)
 	},
-	// 'If No initialValue, and array has ONLY ONE element (regardless of position), it shoud return that ONLY ONE element without calling callback.': function () {
-	// 	fail();
-	// },
+	'If No initialValue, and array has ONLY ONE element (regardless of position), it shoud return that ONLY ONE element without calling callback.': function () {
+		var reduceResult = reduce([,,,5,,], function (){
+			console.warn('if is message shows, it mean the callback is called! so it is not currect.');
+		},);
+		eq(reduceResult, 5);
+	},
 
 
 
