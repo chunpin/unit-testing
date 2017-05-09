@@ -122,13 +122,18 @@ tests({
 			eq(currentValue,2)
 		});
 	},
-	// 'If NO initialValue, callback will start at array[1].': function () {
-	// 	fail();
-	// },
+	'If NO initialValue, callback will start at array[1].': function () {
+		reduce([1,2], function (accumulator, currentValue, currentIndex) {
+		   eq(currentIndex, 1)
+		});
+	},
 
-	// 'If initialValue, and the array is empty, it should return initialValue without calling callback.': function () {
-	// 	fail();
-	// },
+	'If initialValue, and the array is empty, it should return initialValue without calling callback.': function () {
+		var reduceResult = reduce([,,,], function () {
+			 console.warn('if is message shows, it mean the callback is called! so it is not currect.');
+		},1);
+		eq(reduceResult, 1)
+	},
 	// 'If No initialValue, and array has ONLY ONE element (regardless of position), it shoud return that ONLY ONE element without calling callback.': function () {
 	// 	fail();
 	// },
