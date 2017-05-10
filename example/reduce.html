@@ -66,8 +66,8 @@ function reduce(array, callback, initialValue) {
 		startingIndex++;
 		// if there's ONE element in array regardless of position, return the value of that singal element of array
 		if(Object.keys(array).length === 1){
-			var elementIndex = Object.keys(array);
-			var elementSingleValue = array[elementIndex];
+			var elementSingleIndex = Object.keys(array);
+			var elementSingleValue = array[elementSingleIndex];
 			return elementSingleValue;
 		}
 	// Has initialValue
@@ -78,10 +78,16 @@ function reduce(array, callback, initialValue) {
 	}
 
 	for(var i = startingIndex ; i < array.length; i++){
-		var currentValue = array[i]
-		var currentIndex = i;
-		callback(resultSoFar,currentValue, currentIndex);
+		// check if there's any hole in the array
+		if(i in array){
+			var currentValue = array[i]
+		    var currentIndex = i;
+		    resultSoFar = callback(resultSoFar,currentValue, currentIndex);
+		}
+		
 	}
+
+	return resultSoFar;
 
 };
 
@@ -143,21 +149,30 @@ tests({
 		eq(reduceResult, initialValue)
 	},
 	'If No initialValue, and array has ONLY ONE element (regardless of position), it shoud return that ONLY ONE element without calling callback.': function () {
-		var reduceResult = reduce([,,,5,,], function (){
+		var singleElement = 36;
+		var reduceResult = reduce([,,,singleElement,,], function (){
 			console.warn('if is message shows, it mean the callback is called! so it is not currect.');
 		},);
-		eq(reduceResult, 5);
+		eq(reduceResult, singleElement);
 	},
-
-
-
-
-	// 'It should actually reduce.': function () {
-	// 	fail();
-	// },
-	// 'It should exclude holes.': function () {
-	// 	fail();
-	// },
+	'It should actually reduce.': function () {
+		var sum = reduce([1,2,3,4,5], function (a, b) {
+			return a + b;
+		});
+		eq(sum, 15 );
+	},
+	'It should exclude holes.': function () {
+		var sum  = reduce([1,,2,,,3,,4,,,,5], function (a, b) {
+			return a + b; 
+		},0);
+		eq(sum, 15 );
+	},
+	'If NO initialValue, It should exclude holes too.': function () {
+		var sum  = reduce([1,,2,,,3,,4,,,,5], function (a, b) {
+			return a + b; 
+		});
+		eq(sum, 15 );
+	},
 	// 'If array is empty, and No initialvalue, throw TypeError.': function () {
 	// 	fail();
 	// },
