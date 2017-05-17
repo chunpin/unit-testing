@@ -55,14 +55,16 @@ function reduce(array, callback, startingValue) {
 */
 
 function reduce(array, callback, initialValue) {
-	var startingIndex = 0;
-	var resultSoFar = initialValue;
+	// var startingIndex = 0;
+
+	var startingIndex =  0 || Object.keys(array)[0]; // check and get the first element's value of array  
+	var resultSoFar = initialValue; 
 
 
 	// No initialValue
 	if( arguments.length < 3 ) {
 		console.warn('there is NO initialValue, so callback has to run starting at second element of array');
-		resultSoFar = array[startingIndex];
+		resultSoFar = array[startingIndex]; 
 		startingIndex++;
 		// if there's ONE element in array regardless of position, return the value of that singal element of array
 		if(Object.keys(array).length === 1){
@@ -70,6 +72,8 @@ function reduce(array, callback, initialValue) {
 			var elementSingleValue = array[elementSingleIndex];
 			return elementSingleValue;
 		}
+
+
 	// Has initialValue
 	} else {
 		if(Object.keys(array).length === 0){
@@ -161,14 +165,14 @@ tests({
 		});
 		eq(sum, 15 );
 	},
-	'It should exclude holes.': function () {
-		var sum  = reduce([1,,2,,,3,,4,,,,5], function (a, b) {
+	'If initialValue, it should exclude holes.': function () {
+		var sum  = reduce([,,1,,2,,,3,,4,,,,5], function (a, b) {
 			return a + b; 
 		},0);
 		eq(sum, 15 );
 	},
 	'If NO initialValue, It should exclude holes too.': function () {
-		var sum  = reduce([1,,2,,,3,,4,,,,5], function (a, b) {
+		var sum  = reduce([,,,1,,2,,,3,,4,,,,5], function (a, b) {
 			return a + b; 
 		});
 		eq(sum, 15 );
