@@ -54,6 +54,15 @@ function reduce(array, callback, startingValue) {
 
 */
 
+
+
+
+
+
+
+
+
+
 function reduce(array, callback, initialValue) {
 	// var startingIndex = 0;
 
@@ -66,6 +75,11 @@ function reduce(array, callback, initialValue) {
 		console.warn('there is NO initialValue, so callback has to run starting at second element of array');
 		resultSoFar = array[startingIndex]; 
 		startingIndex++;
+
+		// if there's NO element in array regardless of posiiton
+		if(Object.keys(array).length === 0 ){
+			throw new TypeError('Reduce of emtpy array with no initial value');
+		} 
 		// if there's ONE element in array regardless of position, return the value of that singal element of array
 		if(Object.keys(array).length === 1){
 			var elementSingleIndex = Object.keys(array);
@@ -94,6 +108,9 @@ function reduce(array, callback, initialValue) {
 	return resultSoFar;
 
 };
+
+
+
 
 
 tests({
@@ -177,8 +194,17 @@ tests({
 		});
 		eq(sum, 15 );
 	},
-	// 'If array is empty, and No initialvalue, throw TypeError.': function () {
-	// 	fail();
+	'If array is empty, and No initialvalue, throw TypeError.': function () {
+		var isTypeError = false;
+		try {
+			reduce([],function (){});
+		} catch(err) {
+		    isTypeError = (err instanceof TypeError); // true
+		};
+		eq(isTypeError, true);
+	},
+	// 'If array is empty and has holes, and No initialvalue, throw TypeError.': function () {
+	// 	faile();
 	// },
 	// 'It should pass array as fourth argument to callback.': function () {
 	// 	fail();
