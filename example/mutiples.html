@@ -1,0 +1,51 @@
+<script src="../tinytest.js"></script>
+<script>
+
+
+function solution(number){
+	var resultSoFar = 0;
+	var multiplesNumbers = [3,5];
+	var testArray = [];
+	
+	for(var i = 0 ; i < multiplesNumbers.length ; i++){
+		var resetNumber = number;
+		var initNumber = 0;
+		var setMultiplesNumbers = multiplesNumbers[i];
+		  	while(resetNumber >= setMultiplesNumbers){
+                initNumber = initNumber + setMultiplesNumbers;
+                testArray.push(initNumber)
+                resetNumber = resetNumber - setMultiplesNumbers;
+            };
+	}
+  	
+	for(var i = 0 ; i < testArray.length; i++){
+		resultSoFar = resultSoFar + testArray[i] ;
+	}
+	
+	return resultSoFar;
+	
+}; 
+
+
+
+
+
+
+
+
+tests({
+	'Multiples of 3 and 5': function (){
+		var endResult = solution(10);
+		eq(endResult,23);
+	},
+
+})
+
+
+
+
+
+
+</script>
+
+

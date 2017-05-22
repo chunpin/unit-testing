@@ -62,27 +62,27 @@ function reduce(array, callback, startingValue) {
 
 
 
-
 function reduce(array, callback, initialValue) {
 	// var startingIndex = 0;
 
 	var startingIndex =  0 || Object.keys(array)[0]; // check and get the first element's value of array  
+	var length = array.length; // pre fixed the length of array, incase if the uset adds more items into the array, the reduce funciton will never re-calculate the length of array again and causes problem.
 	var resultSoFar = initialValue; 
+	var arrayIndexes = Object.keys(array);
 
 
 	// No initialValue
 	if( arguments.length < 3 ) {
-		console.warn('there is NO initialValue, so callback has to run starting at second element of array');
 		resultSoFar = array[startingIndex]; 
 		startingIndex++;
 
 		// if there's NO element in array regardless of posiiton
-		if(Object.keys(array).length === 0 ){
+		if(arrayIndexes.length === 0 ){
 			throw new TypeError('Reduce of emtpy array with no initial value');
 		} 
 		// if there's ONE element in array regardless of position, return the value of that singal element of array
-		if(Object.keys(array).length === 1){
-			var elementSingleIndex = Object.keys(array);
+		if(arrayIndexes.length === 1){
+			var elementSingleIndex = arrayIndexes;
 			var elementSingleValue = array[elementSingleIndex];
 			return elementSingleValue;
 		}
@@ -90,17 +90,17 @@ function reduce(array, callback, initialValue) {
 
 	// Has initialValue
 	} else {
-		if(Object.keys(array).length === 0){
+		if(arrayIndexes.length === 0){
 			return resultSoFar;
 		}
 	}
 
-	for(var i = startingIndex ; i < array.length; i++){
+	for(var i = startingIndex ; i < length; i++){
 		// check if there's any hole in the array
 		if(i in array){
 			var currentValue = array[i]
 		    var currentIndex = i;
-		    resultSoFar = callback(resultSoFar,currentValue, currentIndex);
+		    resultSoFar = callback(resultSoFar,currentValue, currentIndex, array);
 		}
 		
 	}
@@ -203,12 +203,21 @@ tests({
 		};
 		eq(isTypeError, true);
 	},
-	// 'If array is empty and has holes, and No initialvalue, throw TypeError.': function () {
-	// 	faile();
-	// },
-	// 'It should pass array as fourth argument to callback.': function () {
-	// 	fail();
-	// }
+	'If array is empty and has holes, and No initialvalue, throw TypeError.': function () {
+		var isTypeError = false;
+		try{
+			reduce([, , , , ], function (){});
+		} catch(err) {
+			isTypeError = err instanceof TypeError;
+		}
+		eq(isTypeError, true);
+	},
+	'It should pass array as fourth argument to callback.': function () {
+		var testArray = [1,2,3,, , 4, 5,,6];
+		reduce(testArray, function (accumulator, currentValue, currentIndex, array){
+			eq(testArray, array);
+		});
+	}
 })
 
 
