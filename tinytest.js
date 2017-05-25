@@ -39,11 +39,6 @@
  */
 
 
-var testingObject = {
-
-};
-
-
 var TinyTestHelper = {
     renderStats: function (tests,failures) {
             var numberOfTests = Object.keys(tests).length;
