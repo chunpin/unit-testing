@@ -39,6 +39,10 @@
  */
 
 
+var testingObject = {
+
+};
+
 
 var TinyTestHelper = {
     renderStats: function (tests,failures) {
