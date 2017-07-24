@@ -23,6 +23,7 @@ function sayFullName(first, last) {
 
 
 
+
 function runWithDebugger(callback, optionalArgumentsForCallBackAsArray){
 	var callbackIsFunction = (typeof callback === "function") ? true : false ;
 	var optionalArgumentsForCallBackAsArray = (Array.isArray(optionalArgumentsForCallBackAsArray))? true: false ;
@@ -76,19 +77,18 @@ runWithDebugger(sayHiTo, ['james']);*/
 
 =============  REQUIREMENTS =============
 
-
-
 • If callback, run debugger with callback
-
-
-
+• If callback is a function. 
 • If No callback, throw error.
 
+• If callback HAS argument,  check if optionalArray is a array.
+• If callback HAS argument, run callback with debugger
+• If argument is Array.
+• If argument is NOT array, trow error.
 
 
-• If callback HAS argument, run callback
-• If argument is Array
-• If argument is NOT array
+
+
 
 
 
@@ -126,162 +126,70 @@ runWithDebugger(sayHiTo, ['james']);*/
 
 
 
-function reduce(array, callback, initialValue) {
-	// var startingIndex = 0;
 
-	var startingIndex =  0 || Object.keys(array)[0]; // check and get the first element's value of array  
-	var length = array.length; // pre fixed the length of array, incase if the uset adds more items into the array, the reduce funciton will never re-calculate the length of array again and causes problem.
-	var resultSoFar = initialValue; 
-	var arrayIndexes = Object.keys(array);
-
-
-	// No initialValue
-	if( arguments.length < 3 ) {
-		resultSoFar = array[startingIndex]; 
-		startingIndex++;
-
-		// if there's NO element in array regardless of posiiton
-		if(arrayIndexes.length === 0 ){
-			throw new TypeError('Reduce of emtpy array with no initial value');
-		} 
-		// if there's ONE element in array regardless of position, return the value of that singal element of array
-		if(arrayIndexes.length === 1){
-			var elementSingleIndex = arrayIndexes;
-			var elementSingleValue = array[elementSingleIndex];
-			return elementSingleValue;
-		}
-
-
-	// Has initialValue
-	} else {
-		if(arrayIndexes.length === 0){
-			return resultSoFar;
-		}
-	}
-
-	for(var i = startingIndex ; i < length; i++){
-		// check if there's any hole in the array
-		if(i in array){
-			var currentValue = array[i]
-		    var currentIndex = i;
-		    resultSoFar = callback(resultSoFar,currentValue, currentIndex, array);
-		}
-		
-	}
-
-	return resultSoFar;
-
-};
+function runWithDebugger(callback,optionalCallBackArgumentAsArray){
+	   // check if there's callback function 
+	   if(callback){
+	   		callback();
+	   } else{
+	   // check if there's NO callback function 
+	   	  throw new TypeError('forgot pass in a callback funciton ?');
+	   }
+}
 
 
 
 
 
 tests({
-	'If initialvalue, callback should run array.length times.': function (){
-		var  callbackRunTimes = 0 ;
-		reduce([1], function (){
-			callbackRunTimes++
-		},1);
-		eq(callbackRunTimes,1);
-	},
-	'If NO initialvalue, callback should run array.length -1 times.': function (){
-		var callbackRunTimes = 0 ;
-		reduce([1], function callback() {
-			callbackRunTimes++;
-		});
-		eq(callbackRunTimes, 0);
-	},
-	'If initialValue, accumulator should  start with initialValue.': function () {
-		reduce([1], function (accumulator){
-			eq(accumulator, 0)
-		}, 0);
-	},
-	'If initialValue, currentValue should start with array[0].': function () {
+	// 'If callback, run debugger with callback.': function (){
+	// 	var runDebugger =  runWithDebugger(function (){
+	// 		 console.log('hi!');
+	// 	});
 
-		reduce([1], function (accumulator, currentValue){
-			eq(currentValue, 1)
-		},0)
-	},
-	'If initialValue, callback will start at index array[0].': function () {
-		reduce([1], function (accumulator, currentValue,currentIndex){
-			eq(currentIndex,0)
-		},5)
-	},
+	// 	eq(runDebugger, 'hi!');
 
-	'If NO initialValue, accumulator start with array[0].': function () {
-		reduce([1,2], function (accumulator){
-			console.log('hi! look at me!');
-			eq(accumulator, 1)
-		})
-	},
-	'If NO initialValue, currenValue start with array[1].': function () {
-		reduce([1,2], function (accumulator, currentValue){
-			eq(currentValue,2)
+	// },
+	'If callback, run callback function 1 time only.': function (){
+		var counter = 0;
+		runWithDebugger(function (){
+			counter++;
 		});
+		eq(counter, 1);
 	},
-	'If NO initialValue, callback will start at array[1].': function () {
-		reduce([1,2], function (accumulator, currentValue, currentIndex) {
-		   eq(currentIndex, 1)
-		});
-	},
-
-	'If initialValue, and the array is empty, it should return initialValue without calling callback.': function () {
-		var initialValue = 5 ; 
-		var reduceResult = reduce([,,,], function () {
-			 console.warn('if is message shows, it mean the callback is called! so it is not currect.');
-		},initialValue);
-		eq(reduceResult, initialValue)
-	},
-	'If No initialValue, and array has ONLY ONE element (regardless of position), it shoud return that ONLY ONE element without calling callback.': function () {
-		var singleElement = 36;
-		var reduceResult = reduce([,,,singleElement,,], function (){
-			console.warn('if is message shows, it mean the callback is called! so it is not currect.');
-		},);
-		eq(reduceResult, singleElement);
-	},
-	'It should actually reduce.': function () {
-		var sum = reduce([1,2,3,4,5], function (a, b) {
-			return a + b;
-		});
-		eq(sum, 15 );
-	},
-	'If initialValue, it should exclude holes.': function () {
-		var sum  = reduce([,,1,,2,,,3,,4,,,,5], function (a, b) {
-			return a + b; 
-		},0);
-		eq(sum, 15 );
-	},
-	'If NO initialValue, It should exclude holes too.': function () {
-		var sum  = reduce([,,,1,,2,,,3,,4,,,,5], function (a, b) {
-			return a + b; 
-		});
-		eq(sum, 15 );
-	},
-	'If array is empty, and No initialvalue, throw TypeError.': function () {
+	'If NO callback, throw error.': function (){
 		var isTypeError = false;
 		try {
-			reduce([],function (){});
+			runWithDebugger();
 		} catch(err) {
 		    isTypeError = (err instanceof TypeError); // true
 		};
 		eq(isTypeError, true);
 	},
-	'If array is empty and has holes, and No initialvalue, throw TypeError.': function () {
-		var isTypeError = false;
-		try{
-			reduce([, , , , ], function (){});
-		} catch(err) {
-			isTypeError = err instanceof TypeError;
-		}
-		eq(isTypeError, true);
-	},
-	'It should pass array as fourth argument to callback.': function () {
-		var testArray = [1,2,3,, , 4, 5,,6];
-		reduce(testArray, function (accumulator, currentValue, currentIndex, array){
-			eq(testArray, array);
+	'It should run the callback function 1 time only.': function (){
+		var counter = 0;
+		runWithDebugger(function (){
+			counter++;
 		});
+		eq(counter, 1);
 	},
+
+	// 'If callback, run debugger with callback': function (){
+	// 	var counter = 
+	// 	runWithDebugger(function (){
+	// 		counter++;
+	// 	});
+	// 	eq(counter, 1);
+	// },
+
+	'It should run the callback function array.length times.': function (){
+		var counter = 0;
+		forEach([1,2,3], function (){
+			counter++;
+		});
+		eq(counter, 3);
+	},
+
 })
 
 
