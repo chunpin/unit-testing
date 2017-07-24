@@ -122,6 +122,10 @@ runWithDebugger(sayHiTo, ['james']);*/
 
 
 
+// if(optionalThis) {
+// 		var filterCallback = callback.bind(optionalThis);
+// 	}
+
 
 
 
@@ -130,6 +134,10 @@ runWithDebugger(sayHiTo, ['james']);*/
 function runWithDebugger(callback,optionalCallBackArgumentAsArray){
 	   // check if there's callback function 
 	   if(callback){
+	   		// if there's optional arguments As array 
+	   		if(optionalCallBackArgumentAsArray){
+	   			callback.apply(this, optionalCallBackArgumentAsArray);	
+	   		} else 
 	   		callback();
 	   } else{
 	   // check if there's NO callback function 
@@ -166,14 +174,17 @@ tests({
 		};
 		eq(isTypeError, true);
 	},
-	'It should run the callback function 1 time only.': function (){
-		var counter = 0;
-		runWithDebugger(function (){
-			counter++;
-		});
-		eq(counter, 1);
-	},
+	'If there is optional argument.': function(){
+		
+		runWithDebugger(function (){}, optionalArgument);
 
+
+	},
+	'It should accept an optional this Array as optional argument in higher order function as last argument.':function (){
+			
+
+
+	},
 	// 'If callback, run debugger with callback': function (){
 	// 	var counter = 
 	// 	runWithDebugger(function (){
