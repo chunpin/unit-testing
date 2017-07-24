@@ -49,18 +49,16 @@ function map (originalArray, callback, optionalThisObject) {
 
 	for(i = 0 ; i < originalArray.length ; i++ ){
 		if(i in originalArray){
-<<<<<<< HEAD
+
 			mappedArray[i] = boundCallback(originalArray[i], i, originalArray);
 			// mappedArray.push(boundCallback(originalArray[i], i, originalArray));
-||||||| merged common ancestors
+
 			// mappedArray[i] = boundCallback(originalArray[i], i, originalArray);
 			mappedArray.push(boundCallback(originalArray[i], i, originalArray));
-=======
+
 			// mappedArray[i] = mapCallback(originalArray[i], i, originalArray);
 			// mappedArray.push(mapCallback(originalArray[i], i, originalArray));
 			mappedArray[i] = mapCallback(originalArray[i], i, originalArray);
-						
->>>>>>> 40936096fffcb0bcaccb9f2cb17ea6fd9875f8b4
 		}
 
 

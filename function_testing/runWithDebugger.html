@@ -131,14 +131,22 @@ runWithDebugger(sayHiTo, ['james']);*/
 
 
 
-function runWithDebugger(callback,optionalCallBackArgumentAsArray){
+function runWithDebugger(callback,optionalArray){
 	   // check if there's callback function 
 	   if(callback){
 	   		// if there's optional arguments As array 
-	   		if(optionalCallBackArgumentAsArray){
-	   			callback.apply(this, optionalCallBackArgumentAsArray);	
-	   		} else 
-	   		callback();
+	   		if(optionalArray){
+	   			// callback.apply(this, optionalArray);	
+	   			// callback(optionalArray)
+	   			// console.log('optional Array',optionalArray);
+	   			// callback(optionalArray[1]);
+	   			console.log('HAS OpitonalArray');
+	   			callback(optionalArray);
+	   		}  else{
+	   		// no optional Array	
+	   			console.log('NO OpitonalArray');
+	   			callback();
+	   		}
 	   } else{
 	   // check if there's NO callback function 
 	   	  throw new TypeError('forgot pass in a callback funciton ?');
@@ -150,14 +158,6 @@ function runWithDebugger(callback,optionalCallBackArgumentAsArray){
 
 
 tests({
-	// 'If callback, run debugger with callback.': function (){
-	// 	var runDebugger =  runWithDebugger(function (){
-	// 		 console.log('hi!');
-	// 	});
-
-	// 	eq(runDebugger, 'hi!');
-
-	// },
 	'If callback, run callback function 1 time only.': function (){
 		var counter = 0;
 		runWithDebugger(function (){
@@ -174,32 +174,13 @@ tests({
 		};
 		eq(isTypeError, true);
 	},
-	'If there is optional argument.': function(){
+	'If should pass the optionalArray as callback s argument .': function(){
 		
-		runWithDebugger(function (){}, optionalArgument);
-
-
+		runWithDebugger(function (name){
+			eq(name, 1);
+		}, [1]);
 	},
-	'It should accept an optional this Array as optional argument in higher order function as last argument.':function (){
-			
 
-
-	},
-	// 'If callback, run debugger with callback': function (){
-	// 	var counter = 
-	// 	runWithDebugger(function (){
-	// 		counter++;
-	// 	});
-	// 	eq(counter, 1);
-	// },
-
-	'It should run the callback function array.length times.': function (){
-		var counter = 0;
-		forEach([1,2,3], function (){
-			counter++;
-		});
-		eq(counter, 3);
-	},
 
 })
 
