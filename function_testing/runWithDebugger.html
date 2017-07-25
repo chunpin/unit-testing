@@ -136,15 +136,17 @@ function runWithDebugger(callback,optionalArray){
 	   if(callback){
 	   		// if there's optional arguments As array 
 	   		if(optionalArray){
-	   			// callback.apply(this, optionalArray);	
-	   			// callback(optionalArray)
-	   			// console.log('optional Array',optionalArray);
-	   			// callback(optionalArray[1]);
-	   			console.log('HAS OpitonalArray');
-	   			callback(optionalArray);
+	   			// check if optionalArray is an array
+	   			if(Array.isArray(optionalArray)){
+	   				debugger;
+	   				callback(optionalArray[0],optionalArray[1]);
+	   			} else {
+	   			// if optinalArray is not an array, throw typeError
+	   				throw new TypeError('please pass an Array as optional argument');
+	   			}
 	   		}  else{
 	   		// no optional Array	
-	   			console.log('NO OpitonalArray');
+	   			debugger;
 	   			callback();
 	   		}
 	   } else{
@@ -175,10 +177,19 @@ tests({
 		eq(isTypeError, true);
 	},
 	'If should pass the optionalArray as callback s argument .': function(){
-		
 		runWithDebugger(function (name){
 			eq(name, 1);
 		}, [1]);
+	},
+	'If it is not an Array as opionalArray, throw TypeError.': function(){
+		var isArray = false;
+		try{
+			runWithDebugger(function (){},1);
+		} catch(err){
+			isArray = (err instanceof TypeError);
+		};
+		eq(isArray,true);
+		
 	},
 
 
